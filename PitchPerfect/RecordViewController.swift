@@ -21,9 +21,9 @@ class RecordViewController: UIViewController {
     var audioRecorder: AVAudioRecorder?
     struct Storyboard {
         static let recordToPlaySegue = "recordToPlay"
-        static let recordButtonNormalSize: CGFloat = 128
-        static let recordButtonSmallSize: CGFloat = 96
-        static let elementsSizeInLowerHalfOfScreen: CGFloat = 189
+        static let recordButtonNormalSize: CGFloat = 155
+        static let recordButtonSmallSize: CGFloat = 110
+        static let screenHeightThresholdToDecreaseButtonSize: CGFloat = 400
     }
     
     // MARK: - Overrides
@@ -57,9 +57,6 @@ class RecordViewController: UIViewController {
 
     // MARK: - IBActions
     @IBAction func record(_ sender: UIButton) {
-        recordLabel.text = "Recording..."
-        recordButton.isEnabled = false
-        stopButton.isEnabled = true
         
         let documentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let fileName = "recording.wav"
@@ -74,6 +71,30 @@ class RecordViewController: UIViewController {
         audioRecorder?.isMeteringEnabled = true
         audioRecorder?.prepareToRecord()
         audioRecorder?.record()
+        
+        // first check whether we have permission to record audio, otherwise
+        // do not change any of the buttons or the label
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeAudio) == .authorized {
+            recordLabel.text = "Recording..."
+            recordButton.isEnabled = false
+            stopButton.isEnabled = true
+        }
+        else {
+            // Tell the user what's going on
+            let alert = UIAlertController(title: "Permission", message: "You have not authorized the app to use the microphone. Please go to settings and change it.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Settings", style: .default) { (alertAction: UIAlertAction) in
+                // the following snippet was added from http://stackoverflow.com/a/28152624/1691367
+                guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                    return
+                }
+                
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: nil)
+                }
+            })
+            present(alert, animated: true, completion: nil)
+        }
     }
 
     @IBAction func stop(_ sender: UIButton) {
@@ -92,7 +113,7 @@ class RecordViewController: UIViewController {
             recordButtonWidthConstraint.constant = Storyboard.recordButtonNormalSize
         }
         else if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            if view.frame.size.height / 2 < Storyboard.elementsSizeInLowerHalfOfScreen {
+            if view.frame.size.height < Storyboard.screenHeightThresholdToDecreaseButtonSize {
                 recordButtonWidthConstraint.constant = Storyboard.recordButtonSmallSize
             }
         }
