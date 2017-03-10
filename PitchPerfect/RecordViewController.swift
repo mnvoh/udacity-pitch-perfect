@@ -10,6 +10,11 @@ import UIKit
 
 class RecordViewController: UIViewController {
 
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var recordLabel: UILabel!
+    @IBOutlet weak var stopButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,6 +25,11 @@ class RecordViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func record(_ sender: UIButton) {
+    }
 
+    @IBAction func stop(_ sender: UIButton) {
+    }
+    
 }
 

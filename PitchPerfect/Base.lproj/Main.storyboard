@@ -40,6 +40,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X5P-P4-2JT">
                                 <rect key="frame" x="136" y="269" width="49" height="30"/>
                                 <state key="normal" title="Record"/>
+                                <connections>
+                                    <action selector="record:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JIM-p6-q9T"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Record" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jlj-0q-yis">
                                 <rect key="frame" x="106.5" y="307" width="107" height="21"/>
@@ -50,6 +53,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z6b-x2-05F">
                                 <rect key="frame" x="144.5" y="369" width="32" height="30"/>
                                 <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8W6-iE-EBV"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -64,6 +70,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="jOK-XB-TTC"/>
                     <connections>
+                        <outlet property="recordButton" destination="X5P-P4-2JT" id="P8p-ps-Vq0"/>
+                        <outlet property="recordLabel" destination="Jlj-0q-yis" id="jhf-p7-WpV"/>
+                        <outlet property="stopButton" destination="z6b-x2-05F" id="XLa-37-GJS"/>
                         <segue destination="9Eq-RR-1Or" kind="show" identifier="recordToPlay" id="NgA-Nn-UeR"/>
                     </connections>
                 </viewController>
